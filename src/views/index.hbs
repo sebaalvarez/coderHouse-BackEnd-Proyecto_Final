@@ -1,0 +1,70 @@
+<div>
+  <h2>Agregar Producto</h2>
+  <table border="0" style="background-color: antiquewhite;">
+    <tr>
+      <td align="right">
+        <label>Nombre</label>
+        <input id="title" />
+      </td>
+      <td align="right">
+        <label>Descripción</label>
+        <input id="description" />
+      </td>
+    </tr>
+    <tr>
+      <td align="right">
+        <label>Precio</label>
+        <input id="price" />
+      </td>
+      <td align="right">
+        <label>Imágen</label>
+        <input id="thumbnail" />
+      </td>
+    </tr>
+    <tr>
+      <td align="right">
+        <label>Código</label>
+        <input id="code" />
+      </td>
+      <td align="right">
+        <label>Stock</label>
+        <input id="stock" />
+      </td>
+    </tr>
+    <tr>
+      <td align="right">
+        <label>Estado</label>
+        <input id="status" />
+      </td>
+      <td align="right">
+        <label>Categoría</label>
+        <input id="category" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center"><button id="btnAdd"> Agregar</button></td>
+    </tr>
+  </table>
+</div>
+
+<div>
+  <h2>Eliminar Producto</h2>
+  <table style="background-color:antiquewhite;">
+    <tr>
+      <td><label>ID</label></td>
+      <td><input id="idProd" placeholder="ID" type="text" /></td>
+      <td><button id="btnDelete">Eliminar</button></td>
+
+    </tr>
+
+  </table>
+
+</div>
+
+<div>
+  <h1> Listado de Productos con Websockets</h1>
+  <table id="tblDatos" border="solid" style="background-color:azure""></table>
+</div>
+
+<script src="../../socket.io/socket.io.js"></script>
+<script src="../../js/index.js"></script>

@@ -1,0 +1,23 @@
+# Product
+components:
+  schemas:
+    Cart:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: ObjectId
+          description: The auto-generated id of the book.
+        products:
+          type: array
+          description: Array de objetos productos con id y cantidad
+          products:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: id del producto
+      example:
+        id: 4ughd73658fnsk85dh58sk
+        products: desktop computer

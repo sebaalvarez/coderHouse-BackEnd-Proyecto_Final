@@ -1,0 +1,26 @@
+paths:
+  /api/carts/{cid}/product/{pid}:
+    put:
+      summary: Actualiza la cantidad del producto que se corresponde con el pid especificado en el carrito que se corresponde con el cid especificado
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path
+          description: path parameter takes the cart id
+          required: true
+          type: string
+        - name: pid
+          in: path
+          description: path parameter takes the product id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: The updated Cart.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "404":
+          description: Product not found Error

@@ -1,0 +1,30 @@
+<h1>Bienvenido {{usr.name}}</h1>
+<h2>Listado de productos del carrito</h2>
+
+<table border="solid">
+  <tr>
+    <th>Nombre</th>
+    <th>Descripción</th>
+    <th>Precio</th>
+    <th>Imágen</th>
+    <th>Código</th>
+    <th>Estado</th>
+    <th>Categoría</th>
+    <th>Cantidad</th>
+
+  </tr>
+  {{#each products}}
+    <tr>
+      <td> {{this.product.title}}</td>
+      <td>{{this.product.description}}</td>
+      <td>{{this.product.price}}</td>
+      <td> {{this.product.thumbnail}}</td>
+      <td> {{this.product.code}}</td>
+      <td>{{this.product.status}}</td>
+      <td> {{this.product.category}}</td>
+      <td> {{this.quantity}}</td>
+
+    </tr>
+  {{/each}}
+
+</table>

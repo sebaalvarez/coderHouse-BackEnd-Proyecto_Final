@@ -1,0 +1,21 @@
+paths:
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene el carrito que se corresponde con el cid especificado
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path
+          description: path parameter takes the cart id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Carrito que se corresponde con el id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "404":
+          description: Carrito no encontrado

@@ -1,0 +1,13 @@
+paths:
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Cargo el producto que se corresponde con el pid al carrito que se corresponde con el cid
+      tags:
+        - Carritos
+      responses:
+        "201":
+          description: Se agregó el producto al carrito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"

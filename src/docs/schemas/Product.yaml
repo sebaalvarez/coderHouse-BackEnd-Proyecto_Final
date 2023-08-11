@@ -1,0 +1,53 @@
+# Product
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - price
+        - thumbnail
+        - code
+        - stock
+        - status
+        - category
+      properties:
+        id:
+          type: ObjectId
+          description: The auto-generated id of the book.
+        title:
+          type: string
+          description: The title of the product.
+        description:
+          type: string
+          description: The description of the product.
+        price:
+          type: number
+          description: The price of the product.
+        thumbnail:
+          type: string
+          description: The image of the product.
+        code:
+          type: string
+          description: The code of the product.
+        stock:
+          type: string
+          description: The stock of the product.
+        status:
+          type: string
+          description: The status of the product.
+        category:
+          type: string
+          description: The category of the product.
+      example:
+        id: 644782d7c5e6fba4f3f33a23
+        title: titulo prueba
+        description: descripcion prueba
+        price: 350
+        thumbnail: imagen prueba
+        code: cod321
+        stock: 654
+        status: true
+        category: outdoor

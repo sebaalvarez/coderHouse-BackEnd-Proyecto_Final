@@ -1,0 +1,46 @@
+
+<h1>Bienvenido {{usr.name}}</h1>
+<h2>Listado de productos</h2>
+
+<table border="solid">
+  <tr>
+    {{!-- <th>Id</th>  --}}
+    <th>Nombre</th>
+    <th>Descripción</th>
+    <th>Precio</th>
+    <th>Imágen</th>
+    <th>Código</th>
+    <th>Stock</th>
+    <th>Estado</th>
+    <th>Categoría</th>
+    <th>Acción</th>
+  </tr>
+  {{#each docs}}
+    <tr>
+      {{!-- <td> {{this._id}}</td> --}}
+      <td> {{this.title}}</td>
+      <td>{{this.description}}</td>
+      <td>{{this.price}}</td>
+      <td> {{this.thumbnail}}</td>
+      <td> {{this.code}}</td>
+      <td>{{this.stock}}</td>
+      <td>{{this.status}}</td>
+      <td> {{this.category}}</td>
+      <td><form action="/api/carts/64482d5aa29002008be91662/products/{{this._id}}" method="POST">
+            <button type="submit" >Agregar al carrito</button>
+        </form></td>
+    </tr>
+  {{/each}}
+
+</table>
+<div>
+    {{#if hasPrevPage}}
+        <a href={{this.prevLink}}><< Anterior</a>
+    {{/if}}
+    &nbsp;
+    {{this.page}}
+    &nbsp;
+     {{#if hasNextPage}}
+        <a href={{this.nextLink}}>Siguiente >></a>
+    {{/if}} 
+</div>

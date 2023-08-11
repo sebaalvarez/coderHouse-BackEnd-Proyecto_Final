@@ -1,0 +1,22 @@
+paths:
+  /api/carts/{cid}/products/{pid}:
+    delete:
+      summary: Borra el producto que se corresponde con el pid especificado del carrito con el cid especificado
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path
+          description: path parameter takes the cart id
+          required: true
+          type: string
+        - name: pid
+          in: path
+          description: path parameter takes the product id
+          required: true
+          type: string
+      responses:
+        "204":
+          description: No additional info attached
+        "404":
+          description: Carrito o producto no encontrado

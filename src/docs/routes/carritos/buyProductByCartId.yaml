@@ -1,0 +1,13 @@
+paths:
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Compro los productos del carrito que se corresponde con el cid especificado
+      tags:
+        - Carritos
+      responses:
+        "201":
+          description: Se compraron los productos del carrito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
