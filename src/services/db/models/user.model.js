@@ -17,9 +17,16 @@ const schema = mongoose.Schema({
     default: "user",
     enum: ["user", "premiun", "admin"],
   },
-  id_cart: { type: String },
+  cart_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "carts",
+  },
   last_session: { type: Date },
 });
+
+// schema.pre("findOne", function () {
+//   this.populate("carts.cart");
+// });
 
 schema.plugin(mongoosePaginate);
 const userModel = mongoose.model(collection, schema);

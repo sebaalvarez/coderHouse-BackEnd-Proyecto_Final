@@ -1,16 +1,11 @@
-// import userModel from "../services/dao/db/models/user.model.js";
 import { generateJWToken, isValidPassword } from "../utils.js";
-
-import UserService from "../services/dao/db/services/users.service.js";
-
-const pm = new UserService();
+import { usersService } from "../services/services.js";
 
 export async function ingreso(req, res) {
   const { email, password } = req.body;
   try {
-    // getUserByEMail
-    const user = await pm.getUserById(email);
-    // const user = await userModel.findOne({ email: email });
+    const user = await usersService.getUserByEMail(email);
+
     console.log("Usuario encontrado para login:");
     console.log(user);
 
@@ -36,6 +31,8 @@ export async function ingreso(req, res) {
       email: user.email,
       age: user.age,
       role: user.role,
+      _id: user._id,
+      cart_id: user.cart_id,
     };
 
     const access_token = generateJWToken(tokenUser);
@@ -43,7 +40,7 @@ export async function ingreso(req, res) {
 
     // Con Cookies
     res.cookie("jwtCookieToken", access_token, {
-      maxAge: 60000,
+      maxAge: 6000000,
       // httpOnly: false // expone la cookie
       httpOnly: true, // No expone la cookie
     });

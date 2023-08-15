@@ -1,8 +1,8 @@
-import ticketModel from "../models/tickets.js";
+import ticketModel from "../models/tickets.model.js";
 
-export default class TicketService {
+export default class TicketDao {
   constructor() {
-    // console.log("Working products with Database persistence in mongodb");
+    console.log("Working tickets with Database persistence in mongodb");
   }
 
   addTicket = async (ticket) => {

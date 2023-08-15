@@ -15,3 +15,17 @@ export function profile(req, res) {
     user: req.user,
   });
 }
+
+export function logout(req, res) {
+  const user = req.session.user;
+  req.session.destroy((err) => {
+    if (err) {
+      return res.json({ status: "Error", body: err });
+    }
+
+    res
+      .clearCookie("jwtCookieToken")
+      // .send(`session finalizada correctamente ${user}.`);
+      .render("login", {});
+  });
+}

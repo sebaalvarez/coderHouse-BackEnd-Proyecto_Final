@@ -1,9 +1,10 @@
 import usersModel from "../models/user.model.js";
-import { UsersCreateDto, UsersDto } from "../../../../dto/user.dto.js";
+import { UsersCreateDto, UsersDto } from "../../../dto/user.dto.js";
+import mongoose from "mongoose";
 
-export default class UsersService {
+export default class UsersDao {
   constructor() {
-    // console.log("Working products with Database persistence in mongodb");
+    console.log("Working users with Database persistence in mongodb");
   }
 
   createUser = async (userData) => {
@@ -54,18 +55,22 @@ export default class UsersService {
     }
   };
 
-  // updateUserById = async (id, product) => {
-  //   try {
-  //     let { _id, ...rest } = product;
+  updateUserById = async (id, user) => {
+    try {
+      let { _id, ...rest } = user;
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        let result = await usersModel.updateOne({ _id: id }, rest);
 
-  //     let result = await usersModel.updateOne({ _id: id }, rest);
-
-  //     console.log(`El producto id: ${id} fue actualizado correctamente`);
-  //     return result;
-  //   } catch (err) {
-  //     console.error(`ERROR actualizando Producto: ${err}`);
-  //   }
-  // };
+        // console.log(`El usuario id: ${id} fue actualizado correctamente`);
+        return result;
+      } else {
+        return null;
+      }
+    } catch (err) {
+      console.error(`ERROR actualizando el Usuario: ${err}`);
+      return null;
+    }
+  };
 
   // deleteUserById = async (id) => {
   //   let msg = "";

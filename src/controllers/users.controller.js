@@ -1,10 +1,8 @@
-import UserService from "../services/dao/db/services/users.service.js";
-
-const pm = new UserService();
+import { usersService, cartsService } from "../services/services.js";
 
 export async function getAllUsers(req, res) {
   try {
-    let users = await pm.getAllUsers();
+    let users = await usersService.getAllUsers();
     res.status(200).send({
       status: "Success",
       message: users,
@@ -17,7 +15,7 @@ export async function getAllUsers(req, res) {
 export async function ingreso(req, res) {
   const userId = req.params.userId;
   try {
-    const user = await pm.getUserById(userId);
+    const user = await usersService.getUserById(userId);
     if (!user) {
       res.status(202).json({ message: "User not found with ID: " + userId });
     }
@@ -29,7 +27,8 @@ export async function ingreso(req, res) {
 
 export async function createUser(req, res) {
   try {
-    const userExist = await pm.getUserByEMail(req.body.email);
+    // Valido que ya no exista el mail registrado para otro usuario
+    const userExist = await usersService.getUserByEMail(req.body.email);
 
     if (userExist) {
       return res.status(409).send({
@@ -38,7 +37,13 @@ export async function createUser(req, res) {
       });
     }
 
-    let user = await pm.createUser(req.body);
+    let user = await usersService.createUser(req.body);
+
+    let createCart = await cartsService.addCart();
+
+    await usersService.updateUserById(user._id, {
+      cart_id: createCart._id,
+    });
 
     return res.status(201).send({ status: "Success", payload: user });
   } catch (err) {

@@ -111,11 +111,11 @@ export const authToken = (req, res, next) => {
   });
 };
 
-// para manejo de errores
+// Llamada a Passport de acuerdo al Strategy pasado como parámetro
 export const passportCall = (strategy) => {
   return async (req, res, next) => {
-    // console.log("Entrando a llamar strategy: ");
-    // console.log(strategy);
+    console.log("Entrando a llamar strategy: " + strategy);
+
     passport.authenticate(strategy, function (err, user, info) {
       if (err) return next(err);
       if (!user) {
@@ -123,15 +123,15 @@ export const passportCall = (strategy) => {
           .status(401)
           .send({ error: info.messages ? info.messages : info.toString() });
       }
-      console.log("Usuario obtenido del strategy: ");
-      console.log(user);
+      console.log("Usuario obtenido del strategy: " + strategy);
+      // console.log(user);
       req.user = user;
       next();
     })(req, res, next);
   };
 };
 
-// para manejo de Auth
+// Manejo de Autorización de acuerdo al rol
 export const authorization = (role) => {
   return async (req, res, next) => {
     if (!req.user)

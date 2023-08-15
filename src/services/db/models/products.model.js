@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema({
   title: stringTypeSchemaNonUniqueRequired,
   description: stringTypeSchemaNonUniqueRequired,
   price: stringTypeSchemaNonUniqueRequired,
-  thumbnail: stringTypeSchemaNonUniqueRequired,
+  thumbnails: stringTypeSchemaNonUniqueRequired,
   code: stringTypeSchemaUniqueRequired,
   stock: stringTypeSchemaNonUniqueRequired,
   status: { type: Boolean, default: true },

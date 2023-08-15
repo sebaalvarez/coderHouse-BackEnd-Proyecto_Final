@@ -2,12 +2,9 @@ import passport from "passport";
 import passportLocal from "passport-local";
 import GitHubStrategy from "passport-github2";
 import jwtStrategy from "passport-jwt";
-// import userModel from "../services/dao/db/models/user.model.js";
+
 import { isValidPassword, PRIVATE_KEY } from "../utils.js";
-
-import UserService from "../services/dao/db/services/users.service.js";
-
-const pm = new UserService();
+import { usersService, cartsService } from "../services/services.js";
 
 // Declaramos nuestra estrategia
 const localStrategy = passportLocal.Strategy;
@@ -27,8 +24,7 @@ const initializePassport = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          const user = await pm.getUserByEMail(profile._json.email);
-          // const user = await userModel.findOne({ email: profile._json.email });
+          const user = await usersService.getUserByEMail(profile._json.email);
 
           if (!user) {
             let newUser = {
@@ -40,12 +36,9 @@ const initializePassport = () => {
               loggedBy: "GitHub",
             };
             createUser;
-            const result = await pm.createUser(newUser);
-            // const result = await userModel.create(newUser);
+            const result = await usersService.createUser(newUser);
             return done(null, result);
           } else {
-            //Si entramos por acá significa que el usuario ya existía.
-
             return done(null, user);
           }
         } catch (error) {
@@ -55,7 +48,7 @@ const initializePassport = () => {
     )
   );
 
-  //Estrategia de obtener Token JWT por Cookie:
+  //Estrategia JWT por Cookie:
   passport.use(
     "jwt",
     new JwtStrategy(
@@ -86,32 +79,26 @@ const initializePassport = () => {
       // passReqToCallback: para convertirlo en un callback de request, para asi poder iteracturar con la data que viene del cliente
       // usernameField: renombramos el username
       { passReqToCallback: true, usernameField: "email" },
-      // async (req, username, password, done) => {
-      async (req, done) => {
-        // const { first_name, last_name, email, age, role, password } = req.body;
-
+      async (req, username, password, done) => {
         try {
-          const user = await pm.getUserByEMail(req.body.email);
-          // const exists = await userModel.findOne({ email });
-          if (user) {
+          const userExist = await usersService.getUserByEMail(req.body.email);
+
+          if (userExist) {
             console.log("El usuario ya existe.");
             return done(null, false);
           }
-          // const newUser = {
-          //   first_name,
-          //   last_name,
-          //   email,
-          //   age,
-          //   role,
-          //   password: createHash(password),
-          // };
 
-          // const result = await pm.createUser(newUser);
-          // const result = await userModel.create(user);
-          const result = await pm.createUser(req.body);
-          return done(null, result);
+          const user = await usersService.createUser(req.body);
+
+          let createCart = await cartsService.addCart();
+
+          await usersService.updateUserById(user._id, {
+            cart_id: createCart._id,
+          });
+          return done(null, user);
         } catch (error) {
-          return done("Error registrando el usuario: " + error);
+          console.error("Error registrando el usuario: " + error);
+          return done(null, false);
         }
       }
     )
@@ -124,8 +111,7 @@ const initializePassport = () => {
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
         try {
-          const user = await pm.getUserByEMail(username);
-          // const user = await userModel.findOne({ email: username });
+          const user = await usersService.getUserByEMail(username);
 
           if (!user) {
             console.warn("Invalid credentials for user: " + username);
@@ -150,9 +136,8 @@ const initializePassport = () => {
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
         try {
-          const user = await pm.getUserByEMail(username);
-          // const user = await userModel.findOne({ email: username });
-          // req.session.user;
+          const user = await usersService.getUserByEMail(username);
+
           if (!user) {
             console.warn("Invalid credentials for user: " + username);
             return done(null, false);
@@ -173,8 +158,7 @@ const initializePassport = () => {
 
   passport.deserializeUser(async (id, done) => {
     try {
-      const user = await pm.getUserById(id);
-      // let user = await userModel.findById(id);
+      const user = await usersService.getUserById(id);
       done(null, user);
     } catch (error) {
       console.error("Error deserializando el usuario: " + error);

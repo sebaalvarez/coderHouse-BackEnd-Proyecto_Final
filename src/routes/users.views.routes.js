@@ -4,6 +4,7 @@ import {
   login,
   register,
   profile,
+  logout,
 } from "../controllers/users.views.controller.js";
 
 const router = Router();
@@ -12,11 +13,8 @@ router.get("/login", login);
 
 router.get("/register", register);
 
-router.get(
-  "/",
-  passportCall("jwt"), //-> Usando JWT por Cookie usando customCall
-  authorization("user"),
-  profile
-);
+router.get("/profile", passportCall("jwt"), authorization("user"), profile);
+
+router.get("/logout", logout);
 
 export default router;

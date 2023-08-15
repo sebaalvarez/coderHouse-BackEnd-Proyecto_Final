@@ -1,15 +1,14 @@
-import cartsModel from "../models/carts.js";
-// import ProductService from "./products.service.js";
+import cartsModel from "../models/carts.model.js";
+import mongoose from "mongoose";
 
-export default class StudentService {
+export default class CartDao {
   constructor() {
-    // console.log("Working carts with Database persistence in mongodb");
+    console.log("Working carts with Database persistence in mongodb");
   }
 
   addCart = async () => {
     try {
       let result = await cartsModel.create({});
-      console.log(`Se cargo el carrito`);
       return result;
     } catch (err) {
       console.error(`ERROR agregando Carrito: ${err}`);
@@ -31,10 +30,14 @@ export default class StudentService {
 
   addProductCar = async (cid, pid) => {
     try {
-      let cart = await this.getCartById(cid);
-
+      let cart = {};
+      if (mongoose.Types.ObjectId.isValid(cid)) {
+        cart = await this.getCartById(cid);
+      } else {
+        cart = null;
+      }
       /* Encuentra el carrito con el id indicado */
-      if (cart.lenght !== 0) {
+      if (cart) {
         let productInCart = cart.products;
 
         let ind = this.devuelveIndex(productInCart, pid);
@@ -71,11 +74,15 @@ export default class StudentService {
 
   getCartById = async (id) => {
     try {
-      let result = await cartsModel.findOne({ _id: id }).lean();
-      return result;
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        let result = await cartsModel.findOne({ _id: id }).lean();
+        return result;
+      } else {
+        return null;
+      }
     } catch (err) {
       console.error(`ERROR obteniendo el Carrito por ID: ${err}`);
-      return [];
+      return null;
     }
   };
 
@@ -86,13 +93,17 @@ export default class StudentService {
       return result;
     } catch (err) {
       console.error(`ERROR obteniendo los Carritos: ${err}`);
-      return [];
+      return null;
     }
   };
 
   deleteProducts = async (cid) => {
     try {
-      let cart = await this.getCartById(cid);
+      if (mongoose.Types.ObjectId.isValid(cid)) {
+        let cart = await this.getCartById(cid);
+      } else {
+        return null;
+      }
       let arr = new Array();
       let result = await cartsModel.findByIdAndUpdate(
         { _id: cid },
@@ -107,12 +118,15 @@ export default class StudentService {
 
   deleteProductById = async (cid, pid) => {
     try {
-      let cart = await this.getCartById(cid);
-
-      if (cart.lenght !== 0) {
+      let cart;
+      if (mongoose.Types.ObjectId.isValid(cid)) {
+        cart = await this.getCartById(cid);
+      } else {
+        return null;
+      }
+      if (cart) {
         /* Encuentra el carrito con el id indicado */
         let productInCart = cart.products;
-
         let ind = this.devuelveIndex(productInCart, pid);
 
         if (ind >= 0) {
@@ -124,6 +138,8 @@ export default class StudentService {
             { products: productInCart }
           );
           return result;
+        } else {
+          return cart;
         }
       }
     } catch (err) {

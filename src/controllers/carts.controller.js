@@ -1,17 +1,11 @@
-// import path from "path";
-// import CartManager from "../services/dao/filesystem/services/cartManager.js";
-// import ProductManager from "../services/dao/filesystem/services/productManager.js";
-import CartService from "../services/dao/db/services/carts.service.js";
-import ProductService from "../services/dao/db/services/products.service.js";
-import TicketService from "../services/dao/db/services/ticket.service.js";
-
-// const car = new CartManager(path.join(".", "files"));
-const car = new CartService();
-const pm = new ProductService();
-const ticket = new TicketService();
+import {
+  cartsService,
+  productsService,
+  ticketsService,
+} from "../services/services.js";
 
 export async function createCart(req, res) {
-  await car.addCart();
+  await cartsService.addCart();
   res.status(200).send({
     status: "Success",
     message: `Se cargo el carrito`,
@@ -19,7 +13,7 @@ export async function createCart(req, res) {
 }
 
 export async function getAllCarts(req, res) {
-  let carts = await car.getCarts();
+  let carts = await cartsService.getCarts();
   let limit = req.query.limit;
 
   res.status(200).send({
@@ -29,9 +23,9 @@ export async function getAllCarts(req, res) {
 }
 
 export async function getCartById(req, res) {
-  let carts = await car.getCartById(req.params.cid);
+  let carts = await cartsService.getCartById(req.params.cid);
 
-  if (carts.length === 0) {
+  if (!carts) {
     res.status(202).send({
       status: "info",
       error: `No se encontró el carrito con ID: ${req.params.cid}`,
@@ -44,39 +38,48 @@ export async function getCartById(req, res) {
 export async function addProductInCartById(req, res) {
   let cid = req.params.cid;
   let pid = req.params.pid;
+  try {
+    let carts = await cartsService.getCartById(cid);
 
-  let carts = await car.getCartById(cid);
-
-  /* Verifico si existe el id del carrito */
-  if (carts.length === 0) {
-    res.status(202).send({
-      status: "info",
-      error: `No se encontró el carrito con Id: ${cid}`,
-    });
-  } else {
-    let product = await new ProductService().getProductById(pid);
-    /* Verifico si existe el id del producto en el maestro de productos  */
-    if (product.length === 0) {
+    /* Verifico si existe el id del carrito */
+    if (!carts) {
       res.status(202).send({
         status: "info",
-        error: `Se encontró carrito con ID: ${cid} pero No se encontró el producto con Id: ${pid}`,
+        error: `No se encontró el carrito con Id: ${cid}`,
       });
     } else {
-      /* Existe el id del carrito y el id del producto en el maestro de productos */
-      car.addProductCar(cid, pid);
+      let product = await productsService.getProductById(pid);
+      /* Verifico si existe el id del producto en el maestro de productos  */
+      if (!product) {
+        res.status(202).send({
+          status: "info",
+          error: `Se encontró carrito con ID: ${cid} pero No se encontró el producto con Id: ${pid}`,
+        });
+      } else {
+        /* Existe el id del carrito y el id del producto en el maestro de productos */
+        await cartsService.addProductCar(cid, pid);
 
-      res.status(200).send({
-        status: "Success",
-        message: `Se agrego-actualizó el producto Id: ${pid} en el carrito con Id: ${cid}`,
-      });
+        // res.status(200).send({
+        //   status: "Success",
+        //   message: `Se agrego-actualizó el producto Id: ${pid} en el carrito con Id: ${cid}`,
+        // });
+
+        res.redirect("/products");
+      }
     }
+  } catch (error) {
+    console.log("ERROR: No se pudo agregar el producto al carrito");
+    res.status(200).send({
+      status: "Error",
+      message: `No ee agrego-actualizó el producto Id: ${pid} en el carrito con Id: ${cid}`,
+    });
   }
 }
 
 export async function addPurchaseByCartById(req, res) {
   let cid = req.params.cid;
   try {
-    let carts = await car.getCartById(cid);
+    let carts = await cartsService.getCartById(cid);
 
     /* Verifico si existe el id del carrito */
     if (carts.length === 0) {
@@ -109,7 +112,7 @@ export async function addPurchaseByCartById(req, res) {
 
       // elimino del carrito los productos que se agregaron al ticket
       for (const obj of purchaseOkArry) {
-        await car.deleteProductById(cid, obj);
+        await cartsService.deleteProductById(cid, obj);
       }
       if (purchaseOkArry.length != 0) {
         let compra = {
@@ -118,7 +121,7 @@ export async function addPurchaseByCartById(req, res) {
           amount: sum,
         };
 
-        ticket.addTicket(compra);
+        ticketsService.addTicket(compra);
         res.status(200).send({
           status: "Success",
           message: `Se actualizó en el carrito con Id: ${cid} `,
@@ -141,9 +144,9 @@ export async function addPurchaseByCartById(req, res) {
 }
 
 export async function deleteAllProducts(req, res) {
-  let carts = await car.deleteProducts(req.params.cid);
+  let carts = await cartsService.deleteProducts(req.params.cid);
 
-  if (carts.length === 0) {
+  if (!carts) {
     res.status(202).send({
       status: "info",
       error: `No se encontró el carrito con ID: ${req.params.cid}`,
@@ -157,9 +160,9 @@ export async function deleteProductByIdCartId(req, res) {
   let cid = req.params.cid;
   let pid = req.params.pid;
 
-  let carts = await car.deleteProductById(cid, pid);
+  let carts = await cartsService.deleteProductById(cid, pid);
 
-  if (carts.length === 0) {
+  if (!carts) {
     res.status(202).send({
       status: "info",
       error: `No se encontró el carrito con ID: ${req.params.cid}`,
@@ -174,18 +177,18 @@ export async function updateQuantityProductById(req, res) {
   let pid = req.params.pid;
   let qty = req.body.quantity;
 
-  let carts = await car.getCartById(cid);
+  let carts = await cartsService.getCartById(cid);
 
   /* Verifico si existe el id del carrito */
-  if (carts.length === 0) {
+  if (!carts) {
     res.status(202).send({
       status: "info",
       error: `No se encontró el carrito con Id: ${cid}`,
     });
   } else {
-    let product = await new ProductService().getProductById(pid);
+    let product = await productsService.getProductById(pid);
     /* Verifico si existe el id del producto en el maestro de productos  */
-    if (product.length === 0) {
+    if (!product) {
       res.status(202).send({
         status: "info",
         error: `Se encontró carrito con ID: ${cid} pero No se encontró el producto con Id: ${pid}`,
@@ -206,10 +209,10 @@ export async function addProductsByArray(req, res) {
   let cid = req.params.cid;
   let arr = req.body;
 
-  let carts = await car.getCartById(cid);
+  let carts = await cartsService.getCartById(cid);
 
   /* Verifico si existe el id del carrito */
-  if (carts.length === 0) {
+  if (!carts) {
     res.status(202).send({
       status: "info",
       error: `No se encontró el carrito con Id: ${cid}`,
