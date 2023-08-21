@@ -18,23 +18,28 @@ import {
 const router = Router();
 
 /***   Obtiene Todos los productos ***/
-//  passportCall("jwt"),  authorization("user")
-// authToken
 router.get("/", getAllProducts);
 
 /***   Obtiene producto por ID ***/
 router.get("/:pid", getProductById);
 
 /***   Carga producto ***/
-router.post("/", addProduct);
-// router.post("/", authSession, addProduct);
+router.post("/", passportCall("jwt"), authorization("admin"), addProduct);
 
 /*** Actualiza producto por ID ***/
-router.put("/:pid", updateProductById);
-// router.put("/:pid", authSession, updateProductById);
+router.put(
+  "/:pid",
+  passportCall("jwt"),
+  authorization("admin"),
+  updateProductById
+);
 
 /***   Elimina producto por ID ***/
-router.delete("/:pid", deleteProductById);
-// router.delete("/:pid", authSession, deleteProductById);
+router.delete(
+  "/:pid",
+  passportCall("jwt"),
+  authorization("admin"),
+  deleteProductById
+);
 
 export default router;

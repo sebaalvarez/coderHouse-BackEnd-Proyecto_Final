@@ -1,8 +1,11 @@
+import { generate_uuidV4 } from "../utils.js";
 import {
   cartsService,
   productsService,
   ticketsService,
+  usersService,
 } from "../services/services.js";
+import MailingService from "../services/email/mailing.js";
 
 export async function createCart(req, res) {
   await cartsService.addCart();
@@ -72,73 +75,6 @@ export async function addProductInCartById(req, res) {
     res.status(200).send({
       status: "Error",
       message: `No ee agrego-actualizó el producto Id: ${pid} en el carrito con Id: ${cid}`,
-    });
-  }
-}
-
-export async function addPurchaseByCartById(req, res) {
-  let cid = req.params.cid;
-  try {
-    let carts = await cartsService.getCartById(cid);
-
-    /* Verifico si existe el id del carrito */
-    if (carts.length === 0) {
-      res.status(202).send({
-        status: "info",
-        error: `No se encontró el carrito con Id: ${cid}`,
-      });
-    } else {
-      let sum = 0;
-      let purchaseOkArry = [];
-      let purchaseFailArry = [];
-      for (const obj of carts.products) {
-        // Valido si el producto tiene mas stock que el pedido
-        if (obj.quantity <= obj.product.stock) {
-          sum += obj.quantity * obj.product.price;
-
-          // Actualizo cantidad de Stock restando la cantidad del pedido
-          let info = {
-            stock: obj.product.stock - obj.quantity,
-          };
-          await pm.updateProductById(obj.product._id.toString(), info);
-
-          // Agrego al array de productos comprados
-          purchaseOkArry.push(obj.product._id.toString());
-        } else {
-          // Agrego al array de productos no comprados
-          purchaseFailArry.push(obj.product.title);
-        }
-      }
-
-      // elimino del carrito los productos que se agregaron al ticket
-      for (const obj of purchaseOkArry) {
-        await cartsService.deleteProductById(cid, obj);
-      }
-      if (purchaseOkArry.length != 0) {
-        let compra = {
-          code: "Compra Nº" + new Date().getTime(),
-          purchaser: "mail@gmail.com",
-          amount: sum,
-        };
-
-        ticketsService.addTicket(compra);
-        res.status(200).send({
-          status: "Success",
-          message: `Se actualizó en el carrito con Id: ${cid} `,
-          payload: `Los siguientes productos no se pudieron comprar por falta de Stock: ${purchaseFailArry}`,
-        });
-      } else {
-        res.status(200).send({
-          status: "Success",
-          message: `No se pudo realizar la compra del carrito con Id: ${cid} `,
-          payload: `Los siguientes productos no se pudieron comprar por falta de Stock: ${purchaseFailArry}`,
-        });
-      }
-    }
-  } catch (error) {
-    res.status(400).send({
-      status: "Error",
-      message: `No se pudo realizar la compra del carrito con Id: ${cid} `,
     });
   }
 }
@@ -222,6 +158,98 @@ export async function addProductsByArray(req, res) {
     res.status(200).send({
       status: "Success",
       message: `Se actualizó  el carrito con Id: ${cid}`,
+    });
+  }
+}
+
+export async function addPurchaseByCartById(req, res) {
+  let cid = req.params.cid;
+  try {
+    /* Verifico si existe el id del carrito */
+    let carts = await cartsService.getCartById(cid);
+
+    if (!carts) {
+      res.status(202).send({
+        status: "info",
+        error: `No se encontró el carrito con Id: ${cid}`,
+      });
+    } else {
+      /* Verifico si el carrito tiene un usuario asociado */
+      let user = await usersService.getUserByCartId(cid);
+
+      if (!user) {
+        res.status(202).send({
+          status: "info",
+          error: `No se encontró el  usuario asociado al carrito con Id: ${cid}`,
+        });
+      } else {
+        let sum = 0;
+        let purchaseOkArry = [];
+        let purchaseFailArry = [];
+        for (const obj of carts.products) {
+          // Valido si el producto tiene mas stock que el pedido
+          if (obj.quantity <= obj.product.stock) {
+            sum += obj.quantity * obj.product.price;
+
+            // Actualizo cantidad de Stock restando la cantidad del pedido
+            let info = {
+              stock: obj.product.stock - obj.quantity,
+            };
+            await productsService.updateProductById(
+              obj.product._id.toString(),
+              info
+            );
+
+            // Agrego al array de productos comprados
+            purchaseOkArry.push(obj.product._id.toString());
+          } else {
+            // Agrego al array de productos no comprados
+            purchaseFailArry.push(obj.product.title);
+          }
+        }
+
+        // elimino del carrito los productos que se agregaron al ticket
+        for (const obj of purchaseOkArry) {
+          await cartsService.deleteProductById(cid, obj);
+        }
+        if (purchaseOkArry.length != 0) {
+          let compra = {
+            code: generate_uuidV4(),
+            purchaser: user.email,
+            amount: sum,
+          };
+
+          await ticketsService.addTicket(compra);
+
+          const mailingService = new MailingService();
+          /** ENVIO DEL MAIL con la compra*/
+          await mailingService.sendMail({
+            to: user.email,
+            subject: "Gracias por su compra",
+            html: `<div><h1>Se realizó la siguiente compar</h1>
+            <h2>Ticket Nº: ${compra.code} </h2> <br> 
+            <p>Total: $ ${compra.amount}</p></div>`,
+            attachments: [],
+          });
+
+          res.status(200).send({
+            status: "Success",
+            message: `Se actualizó en el carrito con Id: ${cid} `,
+            payload: `Los siguientes productos no se pudieron comprar por falta de Stock: ${purchaseFailArry}`,
+          });
+        } else {
+          res.status(200).send({
+            status: "Error",
+            message: `No se pudo realizar la compra del carrito con Id: ${cid} `,
+            payload: `Los siguientes productos no se pudieron comprar por falta de Stock: ${purchaseFailArry}`,
+          });
+        }
+      }
+    }
+  } catch (error) {
+    res.status(400).send({
+      status: "Error",
+      message: `No se pudo realizar la compra del carrito con Id: ${cid} `,
     });
   }
 }

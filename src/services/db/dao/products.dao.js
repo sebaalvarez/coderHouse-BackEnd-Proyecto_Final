@@ -44,7 +44,7 @@ export default class ProductDao {
   getProductById = async (id) => {
     try {
       if (mongoose.Types.ObjectId.isValid(id)) {
-        let courses = await productsModel.findById({ _id: id });
+        let courses = await productsModel.findOne({ _id: id }).lean();
         return courses;
       } else {
         return null;

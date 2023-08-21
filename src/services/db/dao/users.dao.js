@@ -34,6 +34,32 @@ export default class UsersDao {
     }
   };
 
+  getAllUsersInactivos = async () => {
+    try {
+      const date = new Date();
+      // busco los usuarios que llevan más de 2 días sin loguearse
+      // date.setDate(date.getDate() - 2);
+
+      // busco los usuarios que llevan más de 30 minutos sin loguearse
+      date.setMinutes(date.getMinutes() - 30);
+
+      let prod = await usersModel.find({
+        last_session: { $gte: "1901-01-01", $lte: date },
+      });
+
+      // paso el array de usuarios por el DTO de usuarios para devolver solamente los campos necesarios
+      const newArryUser = [];
+      for (const obj of prod) {
+        newArryUser.push(obj);
+      }
+
+      return newArryUser;
+    } catch (err) {
+      console.error(`ERROR obteniendo los Usuarios: ${err}`);
+      return [];
+    }
+  };
+
   getUserById = async (id) => {
     try {
       let courses = await usersModel.findOne({ _id: id });
@@ -55,6 +81,16 @@ export default class UsersDao {
     }
   };
 
+  getUserByCartId = async (cart_id) => {
+    try {
+      let courses = await usersModel.findOne({ cart_id: cart_id });
+      return courses;
+    } catch (err) {
+      console.error(`ERROR obteniendo el Usuario por cart_id: ${err}`);
+      return [];
+    }
+  };
+
   updateUserById = async (id, user) => {
     try {
       let { _id, ...rest } = user;
@@ -72,15 +108,13 @@ export default class UsersDao {
     }
   };
 
-  // deleteUserById = async (id) => {
-  //   let msg = "";
-  //   try {
-  //     let result = await usersModel.deleteOne({ _id: id });
-  //     console.log(`Se cargo el producto ${result}`);
-  //   } catch (err) {
-  //     msg = `ERROR borrando Producto por ID: ${err}`;
-  //   } finally {
-  //     console.log(msg);
-  //   }
-  // };
+  deleteUserById = async (id) => {
+    let msg = "";
+    try {
+      let result = await usersModel.deleteOne({ _id: id });
+      // console.log(`Se eliminó el usuario`);
+    } catch (err) {
+      console.log(`ERROR borrando el usuario por ID: ${err}`);
+    }
+  };
 }

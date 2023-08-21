@@ -6,9 +6,6 @@ export async function ingreso(req, res) {
   try {
     const user = await usersService.getUserByEMail(email);
 
-    console.log("Usuario encontrado para login:");
-    console.log(user);
-
     if (!user) {
       console.warn("Invalid credentials for user: " + email);
       return res.status(401).send({
@@ -29,7 +26,6 @@ export async function ingreso(req, res) {
       first_name: user.first_name,
       last_name: user.last_name,
       email: user.email,
-      age: user.age,
       role: user.role,
       _id: user._id,
       cart_id: user.cart_id,
@@ -41,11 +37,12 @@ export async function ingreso(req, res) {
     // Con Cookies
     res.cookie("jwtCookieToken", access_token, {
       maxAge: 6000000,
-      // httpOnly: false // expone la cookie
-      httpOnly: true, // No expone la cookie
+      httpOnly: true, // No expone la cookie   -- false // expone la cookie
     });
 
-    // res.send({ message: "login successful!!", jwt: access_token });
+    /* ACTUALIZAR ÚLTIMO INICIO DE SESSION */
+    await usersService.updateUserById(user._id, { last_session: new Date() });
+
     res.send({ message: "Login successful!" });
   } catch (error) {
     console.error(error);

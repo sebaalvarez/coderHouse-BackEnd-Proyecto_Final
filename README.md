@@ -74,7 +74,7 @@ Endpoints
         nextLink: Link directo a la página siguiente (null si hasNextPage=false)
         }
 
-  - [ ] Se deberá poder buscar productos por categoría o por disponibilidad, y se deberá poder realizar un ordenamiento de estos productos de manera ascendente o descendente por precio.
+  - [x] Se deberá poder buscar productos por categoría o por disponibilidad, y se deberá poder realizar un ordenamiento de estos productos de manera ascendente o descendente por precio.
 
 Agregar al router de carts los siguientes endpoints:
 
@@ -111,13 +111,13 @@ Vistas:
 
 - [x] Modificar la ruta /current (/user) Para evitar enviar información sensible, enviar un DTO del usuario sólo con la información necesaria.
 
-- [ ] Realizar un middleware que pueda trabajar en conjunto con la estrategia “current” para hacer un sistema de autorización y delimitar el acceso a dichos endpoints:
+- [x] Realizar un middleware que pueda trabajar en conjunto con la estrategia “current” para hacer un sistema de autorización y delimitar el acceso a dichos endpoints:
 
-  - [ ] Sólo el administrador puede crear, actualizar y eliminar productos.
+  - [x] Sólo el administrador puede crear, actualizar y eliminar productos.
   - [ ] Sólo el usuario puede enviar mensajes al chat.
-  - [ ] Sólo el usuario puede agregar productos a su carrito.
+  - [x] Sólo el usuario puede agregar productos a su carrito.
 
-- [ ] Crear un modelo Ticket el cual contará con todas las formalizaciones de la compra. Éste contará con los campos
+- [x] Crear un modelo Ticket el cual contará con todas las formalizaciones de la compra. Éste contará con los campos
 
   - Id (autogenerado por mongo)
   - code: String debe autogenerarse y ser único
@@ -125,7 +125,7 @@ Vistas:
   - amount: Number, total de la compra.
   - purchaser: String, contendrá el correo del usuario asociado al carrito.
 
-- [ ] Implementar, en el router de carts, la ruta /:cid/purchase, la cual permitirá finalizar el proceso de compra de dicho carrito.
+- [x] Implementar, en el router de carts, la ruta /:cid/purchase, la cual permitirá finalizar el proceso de compra de dicho carrito.
 
   - La compra debe corroborar el stock del producto al momento de finalizarse
     - Si el producto tiene suficiente stock para la cantidad indicada en el producto del carrito, entonces restarlo del stock del producto y continuar.
@@ -133,7 +133,7 @@ Vistas:
     - Al final, utilizar el servicio de Tickets para poder generar un ticket con los datos de la compra.
     - En caso de existir una compra no completada, devolver el arreglo con los ids de los productos que no pudieron procesarse.
 
-- [ ] Una vez finalizada la compra, el carrito asociado al usuario que compró deberá contener sólo los productos que no pudieron comprarse. Es decir, se filtran los que sí se compraron y se quedan aquellos que no tenían disponibilidad.
+- [x] Una vez finalizada la compra, el carrito asociado al usuario que compró deberá contener sólo los productos que no pudieron comprarse. Es decir, se filtran los que sí se compraron y se quedan aquellos que no tenían disponibilidad.
 
 ---
 
@@ -147,11 +147,11 @@ Endpoints:
 
 - [x] GET / deberá obtener todos los usuarios, éste sólo debe devolver los datos principales como nombre, correo, tipo de cuenta (rol)
 
-- [ ] DELETE / deberá limpiar a todos los usuarios que no hayan tenido conexión en los últimos 2 días. (puedes hacer pruebas con los últimos 30 minutos, por ejemplo). Deberá enviarse un correo indicando al usuario que su cuenta ha sido eliminada por inactividad
+- [x] DELETE / deberá limpiar a todos los usuarios que no hayan tenido conexión en los últimos 2 días. (puedes hacer pruebas con los últimos 30 minutos, por ejemplo). Deberá enviarse un correo indicando al usuario que su cuenta ha sido eliminada por inactividad
 
   /api/products/:pid (delete) (ruta protegida)
 
-- [ ] Modificar el endpoint que elimina productos, para que, en caso de que el producto pertenezca a un usuario premium, le envie un correo indicandole que el producto fue eliminado.
+- [x] Modificar el endpoint que elimina productos, para que, en caso de que el producto pertenezca a un usuario premium, le envie un correo indicandole que el producto fue eliminado.
 
 ---
 
@@ -175,13 +175,3 @@ Despliegue:
 - [ ] Realizar el despliegue de tu aplicativo en la plataforma de tu elección (Preferentemente Railway.app, pues es la abarcada en el curso) y corroborar que se puede llevar a cabo un proceso de compra completo.
 
 ---
-
-TODO complementos para cumplir con los puntos anteriores
-
-- [ ] Una vez que un usuario se loguee guardar la fecha del último inicio de sesión.
-
-- [x] agregar notificaciones por mail
-
-- [x] cuando un usuario logueado agregue un producto a su carrito validar si tiene un carrito asociado y sino crearlo y asociarlo antes de cargar el producto al carrito.
-
-- [ ] cuando un usuario agrega un producto al ecommerce guardar el id del usuario que agrega el producto

@@ -68,12 +68,12 @@ app.engine(
 
 app.set("view engine", ".hbs");
 
-//Middlewares Passport
+// Middlewares Passport
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-// endpoints
+// Endpoints
 app.use("/api/performance", performanceRoutes);
 app.use("/mockingproducts", mockingRoutes);
 
@@ -83,10 +83,14 @@ app.use("/github", githubLoginViewRoutes);
 
 app.use("/api/products", productRoutes);
 app.use("/api/carts", cartRoutes);
-app.use("/api/sessions", sessionsRoutes);
-app.use("/api/email", emailRoutes);
-app.use("/api/jwt", jwtRoutes);
 app.use("/api/users", usersRoutes);
+
+// Endpoint Autenticaciones
+app.use("/api/jwt", jwtRoutes);
+app.use("/api/sessions", sessionsRoutes);
+
+// Endpoint prueba Envío de mail
+app.use("/api/email", emailRoutes);
 
 // Endpoint prueba Logger
 app.get("/loggerTest", (req, res) => {

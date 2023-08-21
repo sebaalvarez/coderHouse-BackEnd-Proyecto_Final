@@ -3,30 +3,35 @@ import mongoosePaginate from "mongoose-paginate-v2";
 
 const collectionName = "tickets";
 
-const ticketSchema = new mongoose.Schema({
-  code: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true,
-  },
+const ticketSchema = new mongoose.Schema(
+  {
+    code: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
+    },
 
-  purchaser: {
-    type: String,
-    required: true,
-    trim: true,
-  },
+    purchaser: {
+      type: String,
+      required: true,
+      trim: true,
+    },
 
-  amount: {
-    type: Number,
-    required: true,
-  },
+    amount: {
+      type: Number,
+      required: true,
+    },
 
-  purchase_datetime: {
-    type: Date,
-    default: Date.now,
+    purchase_datetime: {
+      type: Date,
+      default: Date.now,
+    },
   },
-});
+  {
+    timestamps: true,
+  }
+);
 
 /**
  * Middleware para agregar dentro del método 'find' un llamado a una función, en este

@@ -19,7 +19,19 @@ export default class UsersRepository {
     return this.dao.getUserByEMail(mail);
   };
 
+  getUserByCartId = (cart_id) => {
+    return this.dao.getUserByCartId(cart_id);
+  };
+
   updateUserById = (id, user) => {
     return this.dao.updateUserById(id, user);
+  };
+
+  deleteUserById = (id) => {
+    return this.dao.deleteUserById(id);
+  };
+
+  getAllUsersInactivos = () => {
+    return this.dao.getAllUsersInactivos();
   };
 }

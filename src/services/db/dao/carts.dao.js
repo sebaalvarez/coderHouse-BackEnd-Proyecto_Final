@@ -97,6 +97,16 @@ export default class CartDao {
     }
   };
 
+  deleteCartById = async (id) => {
+    let msg = "";
+    try {
+      let result = await cartsModel.deleteOne({ _id: id });
+      // console.log(`Se eliminó el carrito`);
+    } catch (err) {
+      console.log(`ERROR borrando el carrito por ID: ${err}`);
+    }
+  };
+
   deleteProducts = async (cid) => {
     try {
       if (mongoose.Types.ObjectId.isValid(cid)) {

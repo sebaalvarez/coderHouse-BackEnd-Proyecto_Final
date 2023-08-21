@@ -5,11 +5,16 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import { faker } from "@faker-js/faker";
 import config from "./config/config.js";
+import { v4 as uuidv4 } from "uuid";
 
 const _filename = fileURLToPath(import.meta.url);
 export const _dirname = dirname(_filename);
 
 faker.locale = "es"; //Idioma de los datos
+
+export const generate_uuidV4 = () => {
+  return uuidv4();
+};
 
 export const generateProduct = () => {
   return {

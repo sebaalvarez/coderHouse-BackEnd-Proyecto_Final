@@ -8,8 +8,8 @@ export default class TicketDao {
   addTicket = async (ticket) => {
     try {
       let result = await ticketModel.create(ticket);
-      console.log(`Se cargo el ticket ${ticket.code}`);
-      console.log(`RESULTADO: ${JSON.stringify(result, null, "\t")}`);
+      // console.log(`Se cargo el ticket ${ticket.code}`);
+      // console.log(`RESULTADO: ${JSON.stringify(result, null, "\t")}`);
       return result;
     } catch (err) {
       console.error(`ERROR cargando el ticket: ${err}`);

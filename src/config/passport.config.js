@@ -57,7 +57,7 @@ const initializePassport = () => {
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
         secretOrKey: PRIVATE_KEY,
       },
-      // Ambiente Async
+
       async (jwt_payload, done) => {
         console.log("Entrando a passport Strategy con JWT.");
         try {
