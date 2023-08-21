@@ -2,3 +2,4 @@ node_modules
 sessions
 src/config/.env.production
 src/config/.env.development
+src/config/.env copy.development
