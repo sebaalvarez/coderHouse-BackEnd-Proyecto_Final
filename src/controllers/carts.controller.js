@@ -219,7 +219,7 @@ export async function addPurchaseByCartById(req, res) {
             amount: sum,
           };
 
-          await ticketsService.addTicket(compra);
+          let ticket = await ticketsService.addTicket(compra);
 
           const mailingService = new MailingService();
           /** ENVIO DEL MAIL con la compra*/
@@ -232,11 +232,14 @@ export async function addPurchaseByCartById(req, res) {
             attachments: [],
           });
 
-          res.status(200).send({
-            status: "Success",
-            message: `Se actualizó en el carrito con Id: ${cid} `,
-            payload: `Los siguientes productos no se pudieron comprar por falta de Stock: ${purchaseFailArry}`,
-          });
+          // res
+          //   .status(200)
+          // .send({
+          //   status: "Success",
+          //   message: `Se actualizó en el carrito con Id: ${cid} `,
+          //   payload: `Los siguientes productos no se pudieron comprar por falta de Stock: ${purchaseFailArry}`,
+          // })
+          res.render("ticket", {});
         } else {
           res.status(200).send({
             status: "Error",

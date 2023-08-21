@@ -166,7 +166,7 @@ Vistas:
   - [x] login
   - [x] agregar productos al carrito
   - [x] ver carrito
-  - [ ] realizar la compra
+  - [x] realizar la compra
 
 ---
 

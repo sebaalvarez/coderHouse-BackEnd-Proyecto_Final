@@ -9,25 +9,15 @@ import {
 const router = Router();
 
 //  passportCall("jwt"),  authorization("user")
-// authToken
 
 router.get("/", getHome);
+router.post("/", getHome);
 
 /***  Obtiene Todos los productos y los muestra por navegador  ***/
-router.get(
-  "/products",
-  passportCall("jwt"),
-  authorization("user"),
-  getProducts
-);
+router.get("/products", passportCall("jwt"), getProducts);
 
 /***  Obtiene Todos los productos del Carrito indicado y los muestra por navegador  ***/
-// router.get("/carts/:cid", auth, getProductsByCart);
-router.get(
-  "/carts/:cid",
-  passportCall("jwt"),
-  authorization("user"),
-  getProductsByCart
-);
+router.get("/carts/:cid", passportCall("jwt"), getProductsByCart);
 
+router.get("/carts/", passportCall("jwt"), getProductsByCart);
 export default router;

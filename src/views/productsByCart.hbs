@@ -1,5 +1,5 @@
 <h1>Bienvenido {{user.last_name}}, {{user.first_name}} </h1>
-<h2>Listado de productos de su carrito</h2>
+<h2>Listado de productos de su carrito {{this._id}}</h2>
 
 <table border="solid">
   <tr>
@@ -28,3 +28,8 @@
   {{/each}}
 
 </table>
+
+<h4>Realizar compra</h4>
+<form action="/api/carts/{{this._id}}/purchase" method="POST">
+  <button type="submit">Realizar Compra</button>
+</form>

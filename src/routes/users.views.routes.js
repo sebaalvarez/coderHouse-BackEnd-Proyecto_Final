@@ -13,7 +13,7 @@ router.get("/login", login);
 
 router.get("/register", register);
 
-router.get("/profile", passportCall("jwt"), authorization("user"), profile);
+router.get("/profile", passportCall("jwt"), profile);
 
 router.get("/logout", logout);
 

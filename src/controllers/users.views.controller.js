@@ -26,6 +26,6 @@ export function logout(req, res) {
     res
       .clearCookie("jwtCookieToken")
       // .send(`session finalizada correctamente ${user}.`);
-      .render("login", {});
+      .render("home", {});
   });
 }
