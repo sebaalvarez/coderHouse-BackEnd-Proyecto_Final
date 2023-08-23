@@ -1,0 +1,524 @@
+{
+	"info": {
+		"_postman_id": "58a08535-086b-4058-b90a-205f2713d8ab",
+		"name": "ProyectoFinal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "982876"
+	},
+	"item": [
+		{
+			"name": "ProyectoFinal Copy",
+			"item": [
+				{
+					"name": "Products Get All",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/products",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products Get con limit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/products?limit=2",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products Get por Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/products/64e3e8eb52b3413b7df48062",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"products",
+								"64e3e8eb52b3413b7df48062"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n           \"title\": \"Rústico Granito Gorro\",\n            \"description\": \"Carbonite web goalkeeper gloves are ergonomically designed to give easy fit\",\n            \"price\": \"356.00\",\n            \"stock\": \"5\",\n            \"thumbnails\": \"https://loremflickr.com/640/480/nature\",\n            \"status\": \"true\",\n            \"category\": \"cosmetic\",\n            \"code\": \"ilmfbd9p1\",\n            \"owner_id\": \"64e3eb0152b3413b7df4808d\"\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/products/",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products Update por Id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"Modificación Título\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/products/64e3e8eb52b3413b7df48062",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"products",
+								"64e3e8eb52b3413b7df48062"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products Delete por Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/products/64e3e90652b3413b7df48065",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"products",
+								"64e3e90652b3413b7df48065"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Carts Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/carts/",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"carts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Carts Get por Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/carts/64dab45cf04bebaf2fcb746c",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"carts",
+								"64dab45cf04bebaf2fcb746c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Carts Add Producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/carts/64da3f21d352ea3ad40841af/products/644782d7c5e6fba4f3f33a21",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"carts",
+								"64da3f21d352ea3ad40841af",
+								"products",
+								"644782d7c5e6fba4f3f33a21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Carts Delete por Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/carts/64da3f21d352ea3ad40841af",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"carts",
+								"64da3f21d352ea3ad40841af"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Carts Delete Product por Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/carts/64da3f21d352ea3ad40841af/products/644782d7c5e6fba4f3f33a1d",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"carts",
+								"64da3f21d352ea3ad40841af",
+								"products",
+								"644782d7c5e6fba4f3f33a1d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Carts Update Cantidad de Producto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\": 5\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/carts/64482d5aa29002008be91662/product/6446d93b3703d1e93dac045d",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"carts",
+								"64482d5aa29002008be91662",
+								"product",
+								"6446d93b3703d1e93dac045d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Carts Update agrega Productos",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    [\n                {\n                    \"product\": \"644782d7c5e6fba4f3f33a1e\",\n                    \"quantity\": 2\n                    \n                },{\n                    \"product\": \"644782d7c5e6fba4f3f33a2b\",\n                    \"quantity\": 6\n                    \n                },{\n                    \"product\": \"6446d9d9dff25e322c951692\",\n                    \"quantity\": 1\n                    \n                }\n            ]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/carts/64482d5aa29002008be91662",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"carts",
+								"64482d5aa29002008be91662"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Carts Purchase",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/carts/64dab45cf04bebaf2fcb746c/purchase",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"carts",
+								"64dab45cf04bebaf2fcb746c",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\":\"Usuario\", \n    \"last_name\":\"Básico\", \n    \"email\":\"salvarez@agpro.com.ar\", \n    \"age\":\"45\", \n    \"role\": \"user\",\n    \"password\":\"1234aA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/users/register",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"seba.alvarez@gmail.com\", \n    \"password\":\"1234aA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/jwt/login",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"jwt",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/users",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get User Inactivos",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://coderhousebackdesproyectofinal-production.up.railway.app/api/users/delete",
+							"protocol": "https",
+							"host": [
+								"coderhousebackdesproyectofinal-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"users",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
