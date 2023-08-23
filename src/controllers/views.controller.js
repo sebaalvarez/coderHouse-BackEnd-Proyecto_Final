@@ -23,10 +23,10 @@ export async function getProducts(req, res) {
   let prod = await productsService.getProducts(limit, page, sort, query);
 
   prod.prevLink = prod.hasPrevPage
-    ? `http://localhost:8080/products?page=${prod.prevPage}`
+    ? `https://coderhousebackdesproyectofinal-production.up.railway.app/products?page=${prod.prevPage}`
     : "";
   prod.nextLink = prod.hasNextPage
-    ? `http://localhost:8080/products?page=${prod.nextPage}`
+    ? `https://coderhousebackdesproyectofinal-production.up.railway.app/products?page=${prod.nextPage}`
     : "";
   prod.isValid = !(page <= 0 || page > prod.totalPages);
 
@@ -60,10 +60,10 @@ export async function auxGetUsers(req) {
   let prod = await usersService.getUsers(limit, page, sort, query);
 
   prod.prevLink = prod.hasPrevPage
-    ? `http://localhost:8080/users?page=${prod.prevPage}`
+    ? `https://coderhousebackdesproyectofinal-production.up.railway.app/users?page=${prod.prevPage}`
     : "";
   prod.nextLink = prod.hasNextPage
-    ? `http://localhost:8080/users?page=${prod.nextPage}`
+    ? `https://coderhousebackdesproyectofinal-production.up.railway.app/users?page=${prod.nextPage}`
     : "";
   prod.isValid = !(page <= 0 || page > prod.totalPages);
 
