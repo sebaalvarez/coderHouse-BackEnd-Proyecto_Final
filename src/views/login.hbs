@@ -1,15 +1,20 @@
-<div>
+<div class="col-md-5 offset-md-3">
   <h1>Login</h1>
-  <form id="loginForm">
-    <label>Email</label>
-    <input name="email" />
-    <br />
-    <label>Contraseña</label>
-    <input name="password" />
-    <input type="submit" />
-  </form>
-  <p>¿No estás registrado? <a href="/users/register">Regístrate aquí</a></p>
-  <p>¿Tienes cuenta de Github?
+  <div>
+    <form id="loginForm" class="card card-body p-3">
+      <label>Email</label>
+      <input name="email" />
+      <br />
+      <label>Contraseña</label>
+      <input name="password" />
+      <br />
+      <input type="submit" class="btn btn-primary" />
+    </form>
+  </div>
+
+  <p class="text-center">¿No estás registrado?
+    <a href="/users/register">Regístrate aquí</a></p>
+  <p class="text-center">¿Tienes cuenta de Github?
     <a href="/github/login">Logueate por Github</a></p>
 </div>
 

@@ -34,4 +34,8 @@ export default class UsersRepository {
   getAllUsersInactivos = () => {
     return this.dao.getAllUsersInactivos();
   };
+
+  getUsers = (limit, page, sort, query) => {
+    return this.dao.getUsers(limit, page, sort, query);
+  };
 }

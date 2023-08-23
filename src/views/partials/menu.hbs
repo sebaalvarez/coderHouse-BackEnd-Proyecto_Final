@@ -1,11 +1,21 @@
-<h2>Menú</h2>
-<ul>
-  <li><a href="/">Home</a></li>
-  <li><a href="/users/login">Ingresar</a></li>
-  <li><a href="/products/">lista Productos</a></li>
-  <li><a href="/carts/{{user.cart_id}}">Productos del Carrito</a></li>
-  <li><a href="/users/profile">Perfil</a></li>
-  {{! <li><a href="/api/products/realtimeproducts">Con websokets</a></li> }}
-  <li><a href="/users/logout">Salir</a></li>
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container">
+    <a href="/" class="navbar-brand text-center">Proyecto Final
+      {{user.first_name}}
+      {{user.last_name}}</a>
+  </div>
+</nav>
 
-</ul>
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container">
+    <a href="/" class="btn btn-dark">Home</a>
+
+    <a href="/users/login" class="btn btn-dark">Ingresar</a>
+    <a href="/products/" class="btn btn-dark">Productos</a>
+    <a href="/carts/{{user.cart_id}}" class="btn btn-dark">Carrito</a>
+    <a href="/users/" class="btn btn-dark">Usuarios</a>
+    <a href="/users/profile" class="btn btn-dark">Perfil</a>
+    <a href="/users/logout" class="btn btn-dark">Salir</a>
+
+  </div>
+</nav>

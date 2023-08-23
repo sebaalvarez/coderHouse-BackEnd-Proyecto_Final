@@ -1,5 +1,7 @@
 import { usersService, cartsService } from "../services/services.js";
 import MailingService from "../services/email/mailing.js";
+import { auxGetUsers } from "./views.controller.js";
+import { json } from "express";
 
 export async function getAllUsers(req, res) {
   try {
@@ -69,7 +71,7 @@ export async function deleteUsersInactivos(req, res) {
       // Elimino usuario
       await usersService.deleteUserById(obj._id);
 
-      /** ENVIO DEL MAIL con la compra*/
+      /** ENVIO DE MAIL al usuario eliminado*/
       await mailingService.sendMail({
         to: obj.email,
         subject: "Su cuenta fue eliminada por falta de actividad",
@@ -80,4 +82,75 @@ export async function deleteUsersInactivos(req, res) {
   } catch (err) {
     return res.status(400).send({ status: "Error", message: err });
   }
+}
+
+export async function deleteUsersById(req, res) {
+  try {
+    let user = await usersService.getUserById(req.params.userId);
+
+    if (!user) {
+      return res
+        .status(409)
+        .send({ status: "Error", message: "Usuario no encontrado" });
+    }
+
+    // Elimino carrito del usuario
+    await cartsService.deleteCartById(user.cart_id);
+
+    // Elimino usuario
+    await usersService.deleteUserById(user._id);
+
+    const mailingService = new MailingService();
+    /** ENVIO DE MAIL al usuario eliminado*/
+    await mailingService.sendMail({
+      to: user.email,
+      subject: "Su cuenta fue eliminada",
+      html: `<div><h1>Se eliminó su cuenta </h1></div>`,
+      attachments: [],
+    });
+
+    // return res.status(201).send({
+    //   status: "Success",
+    //   message: "Se eliminó correctamente el usuario",
+    // });
+
+    res.redirect("/users");
+  } catch (err) {
+    return res.status(400).send({ status: "Error", message: err });
+  }
+}
+
+export async function editUsersById(req, res) {
+  let userLog = req.user;
+  let user = await usersService.getUserById(req.params.userId);
+  if (!user) {
+    return res
+      .status(409)
+      .send({ status: "Error", message: "Usuario no encontrado" });
+  }
+
+  let usr = {
+    _id: user._id,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    age: user.age,
+    email: user.email,
+    role: user.role,
+  };
+
+  res.render("usersEdit", { usr, userLog });
+}
+
+export async function updateUserById(req, res) {
+  console.log(req.params.userId);
+  console.log(req.body);
+  if (
+    req.body.role === "admin" ||
+    req.body.role === "premiun" ||
+    req.body.role === "user"
+  ) {
+    await usersService.updateUserById(req.params.userId, req.body);
+    return res.redirect("/users");
+  }
+  return res.redirect(`/api/users/edit/${req.params.userId}`);
 }

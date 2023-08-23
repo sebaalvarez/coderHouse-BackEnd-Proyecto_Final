@@ -1,9 +1,9 @@
 
-<h1>Bienvenido {{user.last_name}}, {{user.first_name}} </h1>
-<h2>Listado de productos</h2>
+<h1>Bienvenido {{user.first_name}}, {{user.last_name}}</h1>
+<h2 class=" text-center">Listado de productos</h2>
 
-<table border="solid">
-  <tr>
+<table class="table table-bordered table-hover table-header-dark">
+  <tr class="bg-dark">
     {{!-- <th>Id</th>  --}}
     <th>Nombre</th>
     <th>Descripción</th>
@@ -14,8 +14,6 @@
     <th>Estado</th>
     <th>Categoría</th>
     <th>Acción</th>
-
-
   </tr>
   {{#each docs}}
     <tr>
@@ -30,22 +28,22 @@
       <td> {{this.category}}</td>
       <td>
           <form action="/api/carts/{{this.card_id}}/products/{{this._id}}" method="POST">
-              <button type="submit" >Agregar al carrito </button>
+              <button type="submit" class="btn btn-primary p-1">Agregar a carrito</button>
         </form>
         </td>
     </tr>
   {{/each}}
 
 </table>
-<div>
+<div class="mt-2 mb-4">
     {{#if hasPrevPage}}
-        <a href={{this.prevLink}}><< Anterior</a>
+        <a href={{this.prevLink}} class="btn btn-primary"><< Anterior</a>
     {{/if}}
     &nbsp;
     {{this.page}}
     &nbsp;
      {{#if hasNextPage}}
-        <a href={{this.nextLink}}>Siguiente >></a>
+        <a href={{this.nextLink}} class="btn btn-primary">Siguiente >></a>
     {{/if}} 
 </div>
 

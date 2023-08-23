@@ -4,6 +4,7 @@ import {
   getProductsByCart,
   getProducts,
   getHome,
+  getUsers,
 } from "../controllers/views.controller.js";
 
 const router = Router();
@@ -20,4 +21,8 @@ router.get("/products", passportCall("jwt"), getProducts);
 router.get("/carts/:cid", passportCall("jwt"), getProductsByCart);
 
 router.get("/carts/", passportCall("jwt"), getProductsByCart);
+
+/*** Obtiene los usuarios ***/
+router.get("/users/", passportCall("jwt"), authorization("admin"), getUsers);
+
 export default router;

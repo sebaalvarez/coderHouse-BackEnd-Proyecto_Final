@@ -26,6 +26,7 @@ export async function ingreso(req, res) {
       first_name: user.first_name,
       last_name: user.last_name,
       email: user.email,
+      age: user.age,
       role: user.role,
       _id: user._id,
       cart_id: user.cart_id,

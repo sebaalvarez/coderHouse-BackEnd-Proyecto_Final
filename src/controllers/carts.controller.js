@@ -226,7 +226,7 @@ export async function addPurchaseByCartById(req, res) {
           await mailingService.sendMail({
             to: user.email,
             subject: "Gracias por su compra",
-            html: `<div><h1>Se realizó la siguiente compar</h1>
+            html: `<div><h1>Se realizó la siguiente compra</h1>
             <h2>Ticket Nº: ${compra.code} </h2> <br> 
             <p>Total: $ ${compra.amount}</p></div>`,
             attachments: [],

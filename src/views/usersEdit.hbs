@@ -1,0 +1,17 @@
+<h1>Bienvenido {{userLog.first_name}}, {{userLog.last_name}}</h1>
+<h2 class="text-center">Modifica Usuario</h2>
+<div class="card card-body p-3 col-md-5 offset-md-3">
+  <p>Nombre: {{usr.first_name}}</p>
+  <p>Apellido: {{usr.last_name}}</p>
+  <p>Mail: {{usr.email}}</p>
+  <p>Rol: {{usr.role}}</p>
+</div>
+<div class="card card-body p-3 col-md-5 offset-md-3 mt-3">
+  <form action="/api/users/edit/{{usr._id}}" method="post">
+    <label>Nuevo Rol </label><br />
+    <input type="text" name="role" placeholder="Rol" value={{usr.role}} />
+    <button class="btn btn-primary p-1">Actualizar</button><br />
+    <label>(Valores Permitidos: admin, premiun, user)</label>
+
+  </form>
+</div>

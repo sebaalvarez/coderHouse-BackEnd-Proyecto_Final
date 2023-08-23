@@ -22,22 +22,23 @@ export const generateProduct = () => {
     description: faker.commerce.productDescription(),
     price: faker.commerce.price(),
     stock: faker.random.numeric(1),
-    id: faker.database.mongodbObjectId(),
+    // id: faker.database.mongodbObjectId(),
     thumbnail: faker.image.image(),
     status: "true",
     category: "cosmetic",
     code: faker.random.alphaNumeric(8),
+    owner_id: "64e3e5b504ccdf8211baf7b7",
   };
 };
 
 // export const generateProducts = () => {
-// let numOfProducts = parseInt(
-//   faker.random.numeric(1, { bannedDigits: ["0"] })
-// );
-// let products = [];
-// for (let i = 0; i < numOfProducts; i++) {
-//   products.push(generateProduct());
-// }
+//   let numOfProducts = parseInt(
+//     faker.random.numeric(1, { bannedDigits: ["0"] })
+//   );
+//   let products = [];
+//   for (let i = 0; i < numOfProducts; i++) {
+//     products.push(generateProduct());
+//   }
 //   return {
 //     name: faker.name.firstName(),
 //     last_name: faker.name.lastName(),
@@ -125,11 +126,11 @@ export const passportCall = (strategy) => {
       if (err) return next(err);
 
       if (!user) {
-        return res.status(401).send({
-          error: info.messages ? info.messages : info.toString(),
-        });
+        // return res.status(401).send({
+        //   error: info.messages ? info.messages : info.toString(),
+        // });
 
-        // return res.render("sinAcceso", {});
+        return res.render("sinAcceso", {});
       }
       console.log("Usuario obtenido del strategy: " + strategy);
       // console.log(user);
@@ -145,9 +146,10 @@ export const authorization = (role) => {
     if (!req.user)
       return res.status(401).send("Unauthorized: User not found in JWT");
     if (req.user.role !== role) {
-      return res
-        .status(403)
-        .send("Forbidden: El usuario no tiene permisos con este rol.");
+      // return res
+      //   .status(403)
+      //   .send("Forbidden: El usuario no tiene permisos con este rol.");
+      return res.render("sinAcceso", {});
     }
     next();
   };
