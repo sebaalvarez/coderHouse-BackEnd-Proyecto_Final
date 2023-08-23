@@ -23,7 +23,7 @@ dotenv.config({
 });
 
 export default {
-  port: process.env.PORT,
+  port: process.env.PORT || 8080,
   persistence: process.env.PERSISTENCE,
   environment: program.opts().mode,
   runTests: program.opts().test,
