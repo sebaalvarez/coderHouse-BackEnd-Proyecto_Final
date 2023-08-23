@@ -157,11 +157,11 @@ Endpoints:
 
 Vistas:
 
-- [ ] Crear una vista para poder visualizar, modificar el rol y eliminar un usuario.
+- [x] Crear una vista para poder visualizar, modificar el rol y eliminar un usuario.
 
-  - [ ] Esta vista únicamente será accesible para el administrador del ecommerce
+  - [x] Esta vista únicamente será accesible para el administrador del ecommerce
 
-- [ ] Finalizar las vistas pendientes para la realización de flujo completo de compra. NO ES NECESARIO tener una estructura específica de vistas, sólo las que tú consideres necesarias para poder llevar a cabo el proceso de compra.
+- [x] Finalizar las vistas pendientes para la realización de flujo completo de compra. NO ES NECESARIO tener una estructura específica de vistas, sólo las que tú consideres necesarias para poder llevar a cabo el proceso de compra.
   - [x] registro
   - [x] login
   - [x] agregar productos al carrito
